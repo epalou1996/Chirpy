@@ -2,6 +2,7 @@ package main
 
 import "net/http"
 
+// Esta es la funcion CORS, le da a nuestro multiplexer la capacidad de ser accedido por terceros o algo asi, debo enteder esto mejor.
 func middlewareCors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")

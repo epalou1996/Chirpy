@@ -5,6 +5,7 @@ import (
 	"net/http"
 )
 
+// Crearemos un struct que nos permitira guardar el numero de veces que ha sido cargada la pagina desde que encendio el servidor
 type apiConfig struct {
 	fileSystemHits int
 }
@@ -23,9 +24,18 @@ func (cfg *apiConfig) middlewareMetricsReset(w http.ResponseWriter, r *http.Requ
 }
 
 func (cfg *apiConfig) handlerMetrics(w http.ResponseWriter, r *http.Request) {
-	x := fmt.Sprint("Hits: " + fmt.Sprint(cfg.fileSystemHits))
-	w.Header().Add("Content-type", "text/plain; charset=utf-8")
+	htmlContent := fmt.Sprintf(`
+	<html>
+
+		<body>
+			<h1>Welcome, Chirpy Admin</h1>
+			<p>Chirpy has been visited %d times!</p>
+		</body>
+
+	</html>`, cfg.fileSystemHits)
+
+	w.Header().Add("Content-type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
-	w.Write([]byte(x))
+	fmt.Fprintf(w, htmlContent)
 
 }
